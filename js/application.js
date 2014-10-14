@@ -71,8 +71,8 @@ var AnimalView3 = Backbone.View.extend({
   className: 'animal', // optional, can also set multiple like 'animal dog'
   id: 'dogs', // also optional
   events: {
-    'click':         'alertTest',
-    'click .edit':   'editAnimal',
+    'click': 'alertTest',
+    'click .edit': 'editAnimal',
     'click .delete': 'deleteAnimal'
   },
   newTemplate: _.template($('#dogTemplate').html()), // external template
@@ -83,6 +83,11 @@ var AnimalView3 = Backbone.View.extend({
     // the below line represents the code prior to adding the template
     this.$el.html(this.newTemplate(this.model.toJSON())); // calls the template
   }
+});
+
+// COLLECTIONS
+var AnimalCollection = Backbone.Collection.extend({
+  model: Animal
 });
 
 
@@ -132,8 +137,38 @@ var AnimalView3 = Backbone.View.extend({
 // $(document.body).html(dogView.el);
 
 // PART 3: TEMPLATES (external)
-var dog = new Animal();
-var dogView = new AnimalView3({model: dog});
-console.log(dogView.el);
-console.log(dog.toJSON());
-$(document.body).html(dogView.el);
+// var dog = new Animal();
+// var dogView = new AnimalView3({
+//   model: dog
+// });
+// console.log(dogView.el);
+// console.log(dog.toJSON());
+// $(document.body).html(dogView.el);
+
+
+
+// PART 4: collections
+// adding individual models to collection
+var chihuahua = new Animal({
+  name: 'Sugar',
+  color: 'black',
+  sound: 'woof'
+});
+var chihuahuaView = new AnimalView({
+  model: chihuahua
+});
+var animalCollection = new AnimalCollection(); // only need to create the collection once
+animalCollection.add(chihuahua);
+
+var pug = new Animal({
+  name: 'Gizmo',
+  color: 'tan',
+  sound: 'woof'
+});
+var pugView = new AnimalView({
+  model: pug
+});
+animalCollection.add(pug); // can now directly add to animalCollection
+
+console.log(animalCollection);
+console.log(animalCollection.toJSON());
