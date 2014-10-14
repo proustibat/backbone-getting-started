@@ -26,10 +26,20 @@ console.log(dog.get("name"));
 dog.set("name", "Dog 1");
 console.log(dog.get("name"));
 
-dog.set({name: "Dog 1", color: "brown", sound: "arf"});
+dog.set({
+  name: "Dog 1",
+  color: "brown",
+  sound: "arf"
+});
 console.log(dog.toJSON());
 
 
-var dog2 = new Animal({name: 'Dog 2', color: 'brown', sound: 'arf'});
-dog2.set("name", "Y", {validate: true});
+var dog2 = new Animal({
+  name: 'Dog 2',
+  color: 'brown',
+  sound: 'arf'
+});
+dog2.set("name", "Y", {
+  validate: true
+});
 console.log(dog2.toJSON());
