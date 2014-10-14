@@ -1,3 +1,4 @@
+// MODEL
 var Animal = Backbone.Model.extend({
   defaults: {
     name: 'Fido',
@@ -17,29 +18,62 @@ var Animal = Backbone.Model.extend({
   }
 });
 
+// VIEWS
+var AnimalView = Backbone.View.extend({
+  tagName: 'li', // defaults to div if not specified
+  className: 'animal', // optional, can also set multiple like 'animal dog'
+  id: 'dogs', // also optional
+  events: {
+    'click': 'alertTest',
+    'click .edit': 'editAnimal',
+    'click .delete': 'deleteAnimal'
+  },
+  // initialize function watches for changes in a model and executes code as soon as a new model instance is created
+  initialize: function() {
+    this.on('change', function() {
+      console.log('Something has changed');
+    });
+    this.render(); // render is an optional function that defines the logic for rendering a template
+  },
+  render: function() {
+    this.$el.html(this.model.get('name') + ' is ' + this.model.get('color') + ' and says ' + this.model.get('sound'));
+  }
+});
 
+
+// PART 1 : MODEL
+// var dog = new Animal();
+
+// console.log(dog);
+// console.log(dog.get("name"));
+
+// dog.set("name", "Dog 1");
+// console.log(dog.get("name"));
+
+// dog.set({
+//   name: "Dog 1",
+//   color: "brown",
+//   sound: "arf"
+// });
+// console.log(dog.toJSON());
+
+
+// var dog2 = new Animal({
+//   name: 'Dog 2',
+//   color: 'brown',
+//   sound: 'arf'
+// });
+// dog2.set("name", "Y", {
+//   validate: true
+// });
+// console.log(dog2.toJSON());
+
+
+// PART 2 : VIEWS
 var dog = new Animal();
-
-console.log(dog);
-console.log(dog.get("name"));
-
-dog.set("name", "Dog 1");
-console.log(dog.get("name"));
-
-dog.set({
-  name: "Dog 1",
-  color: "brown",
-  sound: "arf"
+var dogView = new AnimalView({
+  model: dog
 });
-console.log(dog.toJSON());
-
-
-var dog2 = new Animal({
-  name: 'Dog 2',
-  color: 'brown',
-  sound: 'arf'
-});
-dog2.set("name", "Y", {
-  validate: true
-});
-console.log(dog2.toJSON());
+console.log(dogView);
+console.log(dogView.el);
+$(document.body).html(dogView.el);
