@@ -65,6 +65,26 @@ var AnimalView2 = Backbone.View.extend({
   }
 });
 
+// TEMPLATES: external templates
+var AnimalView3 = Backbone.View.extend({
+  tagName: 'li', // defaults to div if not specified
+  className: 'animal', // optional, can also set multiple like 'animal dog'
+  id: 'dogs', // also optional
+  events: {
+    'click':         'alertTest',
+    'click .edit':   'editAnimal',
+    'click .delete': 'deleteAnimal'
+  },
+  newTemplate: _.template($('#dogTemplate').html()), // external template
+  initialize: function() {
+    this.render(); // render is an optional function that defines the logic for rendering a template
+  },
+  render: function() {
+    // the below line represents the code prior to adding the template
+    this.$el.html(this.newTemplate(this.model.toJSON())); // calls the template
+  }
+});
+
 
 
 // PART 1: MODEL
@@ -102,11 +122,18 @@ var AnimalView2 = Backbone.View.extend({
 
 
 
-// PART 3: TEMPLATES
+// PART 3: TEMPLATES (inline)
+// var dog = new Animal();
+// var dogView = new AnimalView2({
+//   model: dog
+// });
+// console.log(dogView);
+// console.log(dogView.el);
+// $(document.body).html(dogView.el);
+
+// PART 3: TEMPLATES (external)
 var dog = new Animal();
-var dogView = new AnimalView2({
-  model: dog
-});
-console.log(dogView);
+var dogView = new AnimalView3({model: dog});
 console.log(dogView.el);
+console.log(dog.toJSON());
 $(document.body).html(dogView.el);
