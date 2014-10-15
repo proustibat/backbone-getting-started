@@ -21,6 +21,7 @@ var TodoView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		console.log("TodoView.initialize");
 		this.$el = $("#todo");
 		// Later we'll look at:
 		// this.listenTo(someCollection, "all", this.render);
@@ -30,6 +31,7 @@ var TodoView = Backbone.View.extend({
 
 	// Re-render the titles of the todo item
 	render: function() {
+		console.log("TodoView.render");
 		this.$el.html(this.todoTpl(this.model.attributes));
 		// $el here is a reference to the jQuery element
 		// associated with the view, todoTpl is a reference
@@ -44,10 +46,12 @@ var TodoView = Backbone.View.extend({
 
 	edit: function() {
 		// executed when todo label is double clicked
+		console.log("TodoView.edit");
 	},
 
 	close: function() {
 		// executed when todo loses focus
+		console.log("TodoView.close");
 	},
 
 	updateOnEnter: function() {
