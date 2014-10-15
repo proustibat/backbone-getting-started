@@ -24,39 +24,43 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <h1>Backbone.js Tutorial: Part.1</h1>
-    <ol>
-        <li>Installing Backbone.js</li>
-        <li>Models</li>
-        <li>Views</li>
-        <li>Templates</li>
-        <li>Collections</li>
-        <li>Collection Views</li>
-    </ol>
+    <h1>Backbone fundamentals : Todo's List</h1>
     <hr/>
 
     <div class="content">
-        <!-- external template -->
-        <script id="dogTemplate" type="text/template">
-            Your animal
-            <%=name %>is <%=color %>and says <%=sound %>
+
+
+        <div id="todo">
+
+        </div>
+
+        <script type="text/template" id="item-template">
+            <div>
+                <input id="todo_complete" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
+                <%= title %>
+            </div>
         </script>
+
     </div>
+
     <hr/>
-    <a href="02.html">>>> Part. 2 >>></a>
+
     <a href="index.html">>>> Home <<<</a>
 
-
+    <!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
 
+    <!-- Underscore -->
     <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
     <script>window._ || document.write('<script src="js/vendor/underscore.js"><\/script>')</script>
 
+    <!-- Backbone -->
     <script src="http://documentcloud.github.io/backbone/backbone-min.js"></script>
     <script>window.Backbone || document.write('<script src="js/vendor/backbone.js"><\/script>')</script>
 
-    <script src="js/application.js"></script>
+    <!-- Applicaiton -->
+    <script src="js/demo.js"></script>
 </body>
 
 </html>
