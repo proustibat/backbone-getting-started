@@ -1,8 +1,8 @@
-// defines the namespace
 window.Tutorial = { // top level namespace is declared on the window
 	Models: {},
 	Collections: {},
-	Views: {}
+	Views: {},
+	Router: {} // add the Router namespace
 };
 
 // Animal model
