@@ -97,7 +97,7 @@ Tutorial.Views.Animals = Backbone.View.extend({ // plural to distinguish as the 
 			var animalView = new Tutorial.Views.Animal({
 				model: Animal
 			});
-			$(document.body).append(animalView.el);
+			$("body .content").append(animalView.el);
 		});
 	}
 });

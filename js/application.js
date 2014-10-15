@@ -223,7 +223,7 @@ var AnimalsView = Backbone.View.extend({ // calling this AnimalsView to distingu
       var animalView = new AnimalView({
         model: Animal
       });
-      $(document.body).append(animalView.el);
+      $("body .content").append(animalView.el);
     });
   }
 });
