@@ -157,9 +157,9 @@ var chihuahua = new Animal({
 var chihuahuaView = new AnimalView({
   model: chihuahua
 });
-var animalCollection = new AnimalCollection(); // only need to create the collection once
+// only need to create the collection once
+var animalCollection = new AnimalCollection();
 animalCollection.add(chihuahua);
-
 var pug = new Animal({
   name: 'Gizmo',
   color: 'tan',
@@ -168,7 +168,27 @@ var pug = new Animal({
 var pugView = new AnimalView({
   model: pug
 });
-animalCollection.add(pug); // can now directly add to animalCollection
+// can now directly add to animalCollection
+animalCollection.add(pug);
 
 console.log(animalCollection);
 console.log(animalCollection.toJSON());
+
+
+// adding multiple models to collection
+var animalCollection2 = new AnimalCollection([{
+  name: 'Bla',
+  color: 'black',
+  sound: 'woof'
+}, {
+  name: 'Bli',
+  color: 'tan',
+  sound: 'woof'
+}, {
+  name: 'Blou',
+  color: 'brown',
+  sound: 'arf'
+}]);
+
+console.log(animalCollection2);
+console.log(animalCollection2.toJSON());
