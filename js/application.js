@@ -147,8 +147,9 @@ var AnimalCollection = Backbone.Collection.extend({
 
 
 
-// PART 4: collections
+// PART 4: COLLECTIONS
 // adding individual models to collection
+/*
 var chihuahua = new Animal({
   name: 'Sugar',
   color: 'black',
@@ -192,3 +193,42 @@ var animalCollection2 = new AnimalCollection([{
 
 console.log(animalCollection2);
 console.log(animalCollection2.toJSON());
+
+*/
+
+
+// PART 5: COLLECTION VIEWS
+// View for all animals (collection)
+var animalCollection = new AnimalCollection([{
+  name: 'Bla',
+  color: 'black',
+  sound: 'woof'
+}, {
+  name: 'Bli',
+  color: 'tan',
+  sound: 'woof'
+}, {
+  name: 'Blou',
+  color: 'brown',
+  sound: 'arf'
+}]);
+
+var AnimalsView = Backbone.View.extend({ // calling this AnimalsView to distinguish as the view for the collection
+  tagName: 'ul',
+  initialize: function() {
+    console.log("init : collection = ", this.collection.toJSON());
+  },
+  render: function() {
+    this.collection.each(function(Animal) {
+      var animalView = new AnimalView({
+        model: Animal
+      });
+      $(document.body).append(animalView.el);
+    });
+  }
+});
+// creates view for collection and renders collection
+var animalsView = new AnimalsView({
+  collection: animalCollection
+});
+animalsView.render();
