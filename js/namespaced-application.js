@@ -31,19 +31,36 @@ Tutorial.Views.Animal = Backbone.View.extend({
 	className: 'animal', // optional, can also set multiple like 'animal dog'
 	id: 'dogs', // also optional
 	events: {
-		'click': 'alertTest',
+		// 'click': 'alertTest',
 		'click .edit': 'editAnimal',
 		'click .delete': 'deleteAnimal'
 	},
-	// newTemplate: _.template('<%= name %> is <%= color %> and says <%= sound %>'), // inline template
 	newTemplate: _.template($('#dogTemplate').html()), // external template
 	initialize: function() {
+		var self = this;
 		this.render(); // render is an optional function that defines the logic for rendering a template
+		this.model.on("change", this.render, this); // calls render function once name changed
+		this.model.on('destroy', this.removeItem, this); // calls remove function once model deleted
 	},
 	render: function() {
 		// the below line represents the code prior to adding the template
-		// this.$el.html(this.model.get('name') + ' is ' + this.model.get('color') + ' and says ' + this.model.get('sound'));
 		this.$el.html(this.newTemplate(this.model.toJSON())); // calls the template
+	},
+	// alertTest: function() {
+	// 	alert("Backbone click event works");
+	// }
+	removeItem: function() {
+		this.$el.remove(); // removes the HTML element from view when delete button clicked/model deleted
+	},
+	editAnimal: function() {
+		var newName = prompt("New animal name:", this.model.get("name")); // prompts for new name
+		if (!newName) {
+			return; // no change if user hits cancel
+		}
+		this.model.set("name", newName);
+	},
+	deleteAnimal: function() {
+		this.model.destroy();
 	}
 });
 
@@ -52,27 +69,7 @@ Tutorial.Collections.Animal = Backbone.Collection.extend({
 	model: Tutorial.Models.Animal
 });
 
-// adding individual models to collection
-var chihuahua = new Tutorial.Models.Animal({
-	name: 'Sugar',
-	color: 'black',
-	sound: 'woof'
-});
-var chihuahuaView = new Tutorial.Views.Animal({
-	model: chihuahua
-});
-var animalCollection = new Tutorial.Collections.Animal(); // only need to create the collection once
-animalCollection.add(chihuahua);
 
-var pug = new Tutorial.Models.Animal({
-	name: 'Gizmo',
-	color: 'tan',
-	sound: 'woof'
-});
-var pugView = new Tutorial.Views.Animal({
-	model: pug
-});
-animalCollection.add(pug); // can now directly add to animalCollection
 
 // adding multiple models to collection (this will override the above Tutorial.Collections.Animal)
 var animalCollection = new Tutorial.Collections.Animal([{
