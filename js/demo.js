@@ -36,7 +36,11 @@ var Todo = Backbone.Model.extend({
 
 // Define a Todo View
 var TodoView = Backbone.View.extend({
-	tagName: "li",
+
+	tagName: "ul", // required, but defaults to 'div' if not set
+	className: "container", // optional, you can assign multiple classes to his property like so: 'container homepage'
+	id: 'todos', // optional
+
 
 	// Cache the template function for a single item
 	todoTpl: _.template($(".content #item-template").html()),
@@ -47,8 +51,9 @@ var TodoView = Backbone.View.extend({
 		"blur .edit": "close",
 	},
 
-	initialize: function() {
-		console.log("TodoView.initialize");
+	initialize: function(options) {
+		console.log("TodoView.initialize: ", options);
+		this.options = options || {};
 		this.$el = $("#todo");
 		// Later we'll look at:
 		// this.listenTo(someCollection, "all", this.render);
@@ -88,8 +93,8 @@ var TodoView = Backbone.View.extend({
 
 
 
-
 /*
+
 // Instanciate the Todo model with a title, with the completed attribute
 // defaulting to false
 var myTodo = new Todo({
@@ -154,7 +159,6 @@ console.log(Person.get('name'));
 Person.unset('name', {
 	validate: true
 });
-*/
 
 var myTodo2 = new Todo();
 myTodo2.set('completed', true, {validate: true}); // logs: Remember to set a title for your todo.
@@ -163,3 +167,15 @@ console.log('completed: ' + myTodo2.get('completed')); // completed: false
 
 var emptyTodo = new Todo(null, {validate: true});
 console.log(">>>", emptyTodo.validationError);
+
+*/
+
+
+
+// VIEW
+
+var todosView = new TodoView();
+console.log(todosView.el); // logs <ul id="todos" class="container"></ul>
+
+var todosView2 = new TodoView();
+todosView2 = new TodoView({el: $("#todo")});
