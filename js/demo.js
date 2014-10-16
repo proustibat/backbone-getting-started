@@ -2,8 +2,14 @@
 var Todo = Backbone.Model.extend({
 	// Default todo attribute values
 	defaults: {
-		title: "",
+		title: null,
 		completed: false
+	},
+	validate: function(attributes) {
+		console.log("Todo.validate");
+		if (attributes.hasOwnProperty("title") && (attributes.title === null || attributes.title === undefined)) {
+			return "Remember to set a title for your todo !";
+		}
 	},
 	initialize: function() {
 		console.log("Todo.initialize");
@@ -14,6 +20,10 @@ var Todo = Backbone.Model.extend({
 
 		this.on('change:completed', function() {
 			console.log('Completed status has changed');
+		});
+
+		this.on("invalid", function(model, error) {
+			console.log(error);
 		});
 	},
 
@@ -78,6 +88,8 @@ var TodoView = Backbone.View.extend({
 
 
 
+
+/*
 // Instanciate the Todo model with a title, with the completed attribute
 // defaulting to false
 var myTodo = new Todo({
@@ -108,9 +120,46 @@ myTodo.set("title", "bla bli blou");
 myTodo.set("completed", true);
 
 
+
 // Both of the following changes trigger the listener:
 myTodo.set("title", 'Go fishing on Sunday.');
 console.log(myTodo.get("title"));
 
 myTodo.setTitle('ALLLLLOOO');
 console.log(myTodo.get("title"));
+
+*/
+
+// VALIDATION
+/*
+var Person = new Backbone.Model({
+	name: 'Jeremy'
+});
+
+// Validate the model name
+Person.validate = function(attrs) {
+	console.log("Person.validate");
+	if (!attrs.name) {
+		return 'I need your name';
+	}
+};
+
+// Change the name
+Person.set({
+	name: 'Samuel'
+});
+console.log(Person.get('name'));
+
+// Remove the name attribute, force validation
+Person.unset('name', {
+	validate: true
+});
+*/
+
+var myTodo2 = new Todo();
+myTodo2.set('completed', true, {validate: true}); // logs: Remember to set a title for your todo.
+console.log('completed: ' + myTodo2.get('completed')); // completed: false
+
+
+var emptyTodo = new Todo(null, {validate: true});
+console.log(">>>", emptyTodo.validationError);
