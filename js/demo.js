@@ -4,6 +4,23 @@ var Todo = Backbone.Model.extend({
 	defaults: {
 		title: "",
 		completed: false
+	},
+	initialize: function() {
+		console.log("Todo.initialize");
+
+		this.on('change', function() {
+			console.log('- Values for this model have changed.');
+		});
+
+		this.on('change:completed', function() {
+			console.log('Completed status has changed');
+		});
+	},
+
+	setTitle: function(newTitle) {
+		this.set({
+			title: newTitle
+		});
 	}
 });
 
@@ -26,7 +43,6 @@ var TodoView = Backbone.View.extend({
 		// Later we'll look at:
 		// this.listenTo(someCollection, "all", this.render);
 		// but you can actually run this example right now by callin todoView.render();
-
 	},
 
 	// Re-render the titles of the todo item
@@ -62,7 +78,6 @@ var TodoView = Backbone.View.extend({
 
 
 
-
 // Instanciate the Todo model with a title, with the completed attribute
 // defaulting to false
 var myTodo = new Todo({
@@ -75,3 +90,27 @@ var todoView = new TodoView({
 });
 // render the view
 todoView.render();
+
+
+
+console.log(myTodo.toJSON());
+console.log(myTodo.get("title"));
+console.log(myTodo.get("completed"));
+
+myTodo.set("title", "Youpi");
+console.log(myTodo.get("title"));
+
+myTodo.on("change:title", function() {
+	console.log('Title changed');
+});
+myTodo.set("title", "bla bli blou");
+
+myTodo.set("completed", true);
+
+
+// Both of the following changes trigger the listener:
+myTodo.set("title", 'Go fishing on Sunday.');
+console.log(myTodo.get("title"));
+
+myTodo.setTitle('ALLLLLOOO');
+console.log(myTodo.get("title"));

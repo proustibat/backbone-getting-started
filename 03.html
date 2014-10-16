@@ -36,8 +36,9 @@
 
         <script type="text/template" id="item-template">
             <div>
-                <input id="todo_complete" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
-                <%= title %>
+                <input id="todo_complete" class="toggle" type="checkbox" <%= completed ? 'checked="checked"' : '' %> />
+                <label><%= title %></label>
+                <button class="destroy"></button>
             </div>
         </script>
 
