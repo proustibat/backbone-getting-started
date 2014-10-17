@@ -174,8 +174,39 @@ console.log(">>>", emptyTodo.validationError);
 
 // VIEW
 
-var todosView = new TodoView();
-console.log(todosView.el); // logs <ul id="todos" class="container"></ul>
+// var todosView = new TodoView();
+// console.log(todosView.el); // logs <ul id="todos" class="container"></ul>
 
-var todosView2 = new TodoView();
-todosView2 = new TodoView({el: $("#todo")});
+// var todosView2 = new TodoView();
+// todosView2 = new TodoView({el: $("#todo")});
+
+
+
+// We create two DOM elements representing buttons
+// which could easily be containers or something else
+var button1 = $('<button>button1</button>');
+var button2 = $('<button><p><a><b>test</b></a></p></button>');
+
+// Define a new view
+var View = Backbone.View.extend({
+	events: {
+		click: function(e) {
+			console.log(view.el);
+			console.log(view.$el);
+			console.log(view.el === e.target);
+		}
+	}
+});
+
+// Create a new instance of the view, applying it
+// to button1
+var view = new View({
+	el: button1
+});
+
+// Apply the view to button2 using setElement
+view.setElement(button2);
+console.log(view.$('a b').html());
+
+button1.trigger('click');
+button2.trigger('click'); // returns true
