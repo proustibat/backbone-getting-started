@@ -37,7 +37,7 @@ var Todo = Backbone.Model.extend({
 // Define a Todo View
 var TodoView = Backbone.View.extend({
 
-	tagName: "ul", // required, but defaults to 'div' if not set
+	tagName: "li", // required, but defaults to 'div' if not set
 	className: "container", // optional, you can assign multiple classes to his property like so: 'container homepage'
 	id: 'todos', // optional
 
@@ -46,9 +46,11 @@ var TodoView = Backbone.View.extend({
 	todoTpl: _.template($(".content #item-template").html()),
 
 	events: {
+		"click .toggle": "toggleCompleted",
 		"dblclick label": "edit",
 		"keypress .edit": "updateOnEnter",
-		"blur .edit": "close",
+		"click .destroy": "clear",
+		"blur .edit": "close"
 	},
 
 	initialize: function(options) {
@@ -182,6 +184,8 @@ console.log(">>>", emptyTodo.validationError);
 
 
 
+/*
+
 // We create two DOM elements representing buttons
 // which could easily be containers or something else
 var button1 = $('<button>button1</button>');
@@ -210,3 +214,4 @@ console.log(view.$('a b').html());
 
 button1.trigger('click');
 button2.trigger('click'); // returns true
+*/
