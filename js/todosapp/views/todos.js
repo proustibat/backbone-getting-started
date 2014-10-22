@@ -23,6 +23,7 @@ app.TodoView = Backbone.View.extend({
 	// a one-to-one correpondence between a Todo and a TodoView in this app, we
 	// set a direct reference on the model for convenience.
 	initialize: function() {
+		console.log("TodoView.initialize");
 		// when the todo gets updated, the application will re-render the view and visually reflect its changes
 		// Note that the model passed in the arguments hash by our AppView is automatically available to us as this.model
 		this.listenTo(this.model, "change", this.render);
