@@ -13,6 +13,10 @@ var TodoList = Backbone.Collection.extend({
 	// Save all of the todo items under the "todos-backbone" namespace
 	localStorage: new Backbone.LocalStorage("todos-backbone"),
 
+	initialize:function() {
+		console.log("TodoList.initialize");
+	},
+
 	// Filter down the list of all todo items that are finished
 	completed: function() {
 		return this.filter(function(todo) {

@@ -22,6 +22,7 @@ app.AppView = Backbone.View.extend({
 
 	// At initialization we bind to the relevant events on the "Todos" collection, when items are addded or changed
 	initialize: function() {
+		console.log("AppView.initialize");
 		this.allCheckbox = this.$("#toggle-all")[0]; // this.$() finds elements relative to this.$el
 		this.$input = this.$('#new-todo');
 		this.$footer = this.$('#footer');
@@ -42,6 +43,7 @@ app.AppView = Backbone.View.extend({
 
 	// Re-rendering the App just means refreshing the statistics -- the rest of the app doesn't change.
 	render: function() {
+		console.log("AppView.render");
 		var completed = app.Todos.completed().length;
 		var remaining = app.Todos.remaining().length;
 
@@ -60,7 +62,7 @@ app.AppView = Backbone.View.extend({
 			this.$('#filters li a')
 				.removeClass('selected')
 				.filter('[href="#/' + (app.TodoFilter || '') + '"]') // The value of app.TodoFilter will be set by our router
-				.addClass('selected'); // Apply the class ‘selected’ to the link corresponding to the currently selected filter.
+			.addClass('selected'); // Apply the class ‘selected’ to the link corresponding to the currently selected filter.
 		} else {
 			this.$main.hide();
 			this.$footer.hide();
@@ -72,6 +74,7 @@ app.AppView = Backbone.View.extend({
 
 	// Add a single todo item to the list by creating a view for it, and appending its element to the "<ul>".
 	addOne: function(todo) {
+		console.log("AppView.addOne");
 		var view = new app.TodoView({
 			model: todo
 		});
@@ -80,6 +83,7 @@ app.AppView = Backbone.View.extend({
 
 	// Add all items in the **Todos** collection at once.
 	addAll: function() {
+		console.log("AppView.addAll");
 		// "this" within addAll() refers to the view because listenTo() implicitly set the callback’s context to the view when it created the binding
 		this.$('#todo-list').html('');
 		app.Todos.each(this.addOne, this);
@@ -87,13 +91,15 @@ app.AppView = Backbone.View.extend({
 
 	// Callback on the Todos collection for a change:completed event
 	filterOne: function(todo) {
-		// This listens for changes to the completed flag for any model in the collection.
+		console.log("AppView.filterOne");
+		// filterOne listens for changes to the completed flag for any model in the collection.
 		// The affected todo is passed to the callback which triggers a custom visible event on the model.
 		todo.trigger('visible');
 	},
 
 	// Callback for a filter event
 	filterAll: function() {
+		console.log("AppView.filterAll");
 		// Its responsibility is to toggle which todo items are visible based on the filter
 		// currently selected in the UI (all, completed or remaining) via calls to filterOne()
 		app.Todos.each(this.filterOne, this);
@@ -101,6 +107,7 @@ app.AppView = Backbone.View.extend({
 
 	// Generate the attributes for a new Todo item.
 	newAttributes: function() {
+		console.log("AppView.newAttributes");
 		// returns an object literal composed of the title, order, and completed state
 		// of the new item. Note that this is referring to the view and not the DOM
 		// element since the callback was bound using the events hash
@@ -113,6 +120,7 @@ app.AppView = Backbone.View.extend({
 
 	// If you hit return in the main input field, create new Todo model, persisting it to localStorage.
 	createOnEnter: function(event) {
+		console.log("AppView.createOnEnter");
 		if (event.which !== ENTER_KEY || !this.$input.val().trim()) {
 			return;
 		}
@@ -127,6 +135,7 @@ app.AppView = Backbone.View.extend({
 
 	// Clear all completed todo items, destroying their models.
 	clearCompleted: function() {
+		console.log("AppView.clearCompleted");
 		// Removes the items in the todo list that have been marked as completed when the user clicks the clear-completed checkbox
 		_.invoke(app.Todos.completed(), 'destroy');
 		return false;
@@ -134,6 +143,7 @@ app.AppView = Backbone.View.extend({
 
 	// Allows a user to mark all of the items in the todo list as completed by clicking the toggle-all checkbox
 	toggleAllComplete: function() {
+		console.log("AppView.toggleAllComplete");
 		var completed = this.allCheckbox.checked;
 
 		app.Todos.each(function(todo) {
