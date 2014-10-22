@@ -16,7 +16,9 @@ app.TodoView = Backbone.View.extend({
 	events: {
 		"dblclick label": "edit",
 		"keypress .edit": "updateOnEnter",
-		"blur .edit": "close"
+		"blur .edit": "close",
+		"click .toggle": "togglecompleted",
+		"click .destroy": "clear",
 	},
 
 	// The TodoView listens for changes to its model, re-rendering. Since there's
@@ -27,6 +29,12 @@ app.TodoView = Backbone.View.extend({
 		// when the todo gets updated, the application will re-render the view and visually reflect its changes
 		// Note that the model passed in the arguments hash by our AppView is automatically available to us as this.model
 		this.listenTo(this.model, "change", this.render);
+
+		// a click event on the todo’s <button class="destroy" /> button
+		this.listenTo(this.model, "destroy", this.remove);
+
+		// a togglecompleted event on the todo’s checkbox
+		this.listenTo(this.model, "visible", this.toggleVisible);
 	},
 
 	// Re-rendering the titles of the todo item
@@ -36,10 +44,50 @@ app.TodoView = Backbone.View.extend({
 		// This returns an HTML fragment that replaces the content of the view’s element
 		// (an li element was implicitly created for us based on the tagName property)
 		this.$el.html(this.template(this.model.attributes));
+		this.toggleVisible();
+
+		this.$el.toggleClass('completed', this.model.get('completed'));
 
 		// Caching the input element within the instantiated template into this.$input
 		this.$input = this.$(".edit");
 		return this;
+	},
+
+	// Toggles visibility of item
+	toggleVisible: function() {
+		this.$el.toggleClass('hidden', this.isHidden());
+	},
+
+	// Determines if item should be hidden
+	isHidden: function() {
+		var isCompleted = this.model.get('completed');
+		return ( // hidden cases only
+			(!isCompleted && app.TodoFilter === 'completed') || (isCompleted && app.TodoFilter === 'active')
+		);
+	},
+
+	// Toggle the `"completed"` state of the model.
+	togglecompleted: function() {
+		// The togglecompleted() function is invoked which calls toggle() on the todo model
+		this.model.toggle();
+
+		// (toggle() toggles the completed status of the todo and calls save() on the model)
+
+		// The save generates a change event on the model which is bound to our TodoView’s render() method
+
+		// We’ve added a statement in render() which toggles the completed class
+		// on the element depending on the model’s completed state. The associated
+		// CSS changes the color of the title text and strikes a line through it when the todo is completed
+
+		// The save also results in a change:completed event on the model
+		// which is handled by the AppView’s filterOne() method. If we look
+		// back at the AppView, we see that filterOne() will trigger a
+		// visible event on the model. This is used in conjunction with the
+		// filtering in our routes and collections so that we only display
+		// an item if its completed state falls in line with the current filter.
+		// In our update to the TodoView, we bound the model’s visible event
+		// to the toggleVisible() method. This method uses the new isHidden()
+		// method to determine if the todo should be visible and updates it accordingly
 	},
 
 	// Switch this view into "editing" mode, displaying the input field
@@ -58,19 +106,42 @@ app.TodoView = Backbone.View.extend({
 		// If a valid value has been provided, we save the changes to the current
 		// todo model and close editing mode by removing the corresponding CSS class
 		var value = this.$input.val().trim();
-		if(value) {
-			this.model.save({title:value});
+		if (value) {
+			this.model.save({
+				title: value
+			});
+		} else {
+			this.clear();
 		}
 		this.$el.removeClass("editing");
 	},
 
 	// If you hit "enter", we're through editing the item
-	updateOnEnter:function(e) {
+	updateOnEnter: function(e) {
 		// checks that the user has hit the return/enter
 		// key and executes the close() function.
-		if(e.which === ENTER_KEY) {
+		if (e.which === ENTER_KEY) {
 			this.close();
 		}
+	},
+
+	// Remove the item, destroy the model from *localStorage* and delete its view.
+	clear: function() {
+		// The clear() method is invoked which calls destroy() on the todo model
+		this.model.destroy();
+		// (The todo is deleted from local storage and a destroy event is triggered)
+
+		// In our update to the TodoView, we bound the model’s destroy event to the
+		// view’s inherited remove() method. This method deletes the view and
+		// automatically removes the associated element from the DOM. Since we used
+		// listenTo() to bind the view’s listeners to its model, remove() also unbinds
+		// the listening callbacks from the model ensuring that a memory leak does not occur.
+
+		// destroy() also removes the model from the Todos collection,
+		// which triggers a remove event on the collection
+
+		// Since the AppView has its render() method bound to all events on the Todos
+		// collection, that view is rendered and the stats in the footer are updated.
 	}
 
 
