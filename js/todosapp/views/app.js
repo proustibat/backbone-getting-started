@@ -32,8 +32,11 @@ app.AppView = Backbone.View.extend({
 
 		this.listenTo(app.Todos, 'change:completed', this.filterOne);
 		this.listenTo(app.Todos, 'filter', this.filterAll);
+
+		// all event to bind any event triggered on the Todos collection to the view’s render method
 		this.listenTo(app.Todos, 'all', this.render);
 
+		// Fetching the previously saved todos from localStorage
 		app.Todos.fetch();
 	},
 
@@ -42,10 +45,13 @@ app.AppView = Backbone.View.extend({
 		var completed = app.Todos.completed().length;
 		var remaining = app.Todos.remaining().length;
 
+		// The #main and #footer sections are displayed or hidden depending on whether there are any todos in the collection
 		if (app.Todos.length) {
 			this.$main.show();
 			this.$footer.show();
 
+			// The footer is populated with the HTML produced by instantiating the statsTemplate
+			// with the number of completed and remaining todo items
 			this.$footer.html(this.statsTemplate({
 				completed: completed,
 				remaining: remaining
@@ -53,13 +59,14 @@ app.AppView = Backbone.View.extend({
 
 			this.$('#filters li a')
 				.removeClass('selected')
-				.filter('[href="#/' + (app.TodoFilter || '') + '"]')
-				.addClass('selected');
+				.filter('[href="#/' + (app.TodoFilter || '') + '"]') // The value of app.TodoFilter will be set by our router
+				.addClass('selected'); // Apply the class ‘selected’ to the link corresponding to the currently selected filter.
 		} else {
 			this.$main.hide();
 			this.$footer.hide();
 		}
 
+		// The allCheckbox is updated based on whether there are remaining todos
 		this.allCheckbox.checked = !remaining;
 	},
 
@@ -87,11 +94,16 @@ app.AppView = Backbone.View.extend({
 
 	// Callback for a filter event
 	filterAll: function() {
+		// Its responsibility is to toggle which todo items are visible based on the filter
+		// currently selected in the UI (all, completed or remaining) via calls to filterOne()
 		app.Todos.each(this.filterOne, this);
 	},
 
 	// Generate the attributes for a new Todo item.
 	newAttributes: function() {
+		// returns an object literal composed of the title, order, and completed state
+		// of the new item. Note that this is referring to the view and not the DOM
+		// element since the callback was bound using the events hash
 		return {
 			title: this.$input.val().trim(),
 			order: app.Todos.nextOrder(),
