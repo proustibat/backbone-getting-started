@@ -1,16 +1,17 @@
-var app = app || {};
+var appH = appH || {};
 
 // Todo Item View
 // --------------
 
 // The DOM element for a todo item...
-app.TodoView = Backbone.View.extend({
+appH.TodoView = Backbone.View.extend({
 
 	// ...is a list tag
 	tagName: "li",
 
 	// Cache the template function for a single item
-	template: _.template($("#item-template").html()),
+	// template: _.template($("#item-template").html()),
+	template: Handlebars.compile( $("#item-template").html(), {}),
 
 	// The DOM events specific to an item
 	events: {
@@ -62,7 +63,7 @@ app.TodoView = Backbone.View.extend({
 	isHidden: function() {
 		var isCompleted = this.model.get('completed');
 		return ( // hidden cases only
-			(!isCompleted && app.TodoFilter === 'completed') || (isCompleted && app.TodoFilter === 'active')
+			(!isCompleted && appH.TodoFilter === 'completed') || (isCompleted && appH.TodoFilter === 'active')
 		);
 	},
 
