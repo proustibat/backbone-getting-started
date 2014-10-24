@@ -39,13 +39,17 @@ appH.TodoView = Backbone.View.extend({
 
 	// Re-rendering the titles of the todo item
 	render: function() {
+		console.log("RENDER TODO");
 		this.$el.html(this.template(this.model.attributes));
+
 		this.toggleVisible();
 
 		this.$el.toggleClass('completed', this.model.get('completed'));
 
 		// Caching the input element within the instantiated template into this.$input
 		this.$input = this.$(".edit");
+
+		this.$el.find("label").attr("data-sr", "enter from right to left and hustle 5px over 0.5s");
 		return this;
 	},
 
