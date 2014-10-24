@@ -10,8 +10,7 @@ appH.AppView = Backbone.View.extend({
 	el: "#todoapp", // refers to the matching <section id="todoapp" />
 
 	// Our template for the line of statistics at the bottom of the app.
-	// statsTemplate: _.template($("#stats-template").html()),
-	statsTemplate: Handlebars.compile( $("#stats-template").html(), {}),
+	statsTemplate: Handlebars.compile( $("#stats-template").html()),
 
 
 	// Delegated events for creating new items, and clearing completed ones.

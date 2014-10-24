@@ -30,8 +30,6 @@
 
     <div class="content">
 
-
-
         <section id="todoapp">
             <header id="header">
                 <h1>Todos H</h1>
@@ -53,21 +51,14 @@
             </p>
         </div>
 
-
-
-
-
         <!-- #item-template which will be used to display individual todo items -->
         <script id="item-template" type="text/x-handlebars-template">
             <div class="view">
                 <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
-
-
-
-                <label>{{title}}</label>
+                <label data-sr="enter from left and move 20px">{{title}}</label>
                 <button class="destroy"></button>
             </div>
-            <input class="edit" value="<%= title %>">
+            <input class="edit" value="{{title}}">
         </script>
 
         <!-- #stats-template template which we will use to populate the footer-->
@@ -80,13 +71,10 @@
                 <li><a href="#/active">Active</a></li>
                 <li><a href="#/completed">Completed</a></li>
             </ul>
-            {{#if completed}}
-                <button id="clear-completed">Clear completed ( {{completed}} )</button>
-            {{/if}}
+            {{#if completed}} <button id="clear-completed">Clear completed ( {{completed}} )</button>{{/if}}
         </script>
 
     </div>
-
 
     <hr/>
     <ul>
@@ -96,9 +84,13 @@
     <hr/>
 
 
+
     <!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+
+    <!-- ScrollReveal : https://github.com/julianlloyd/scrollReveal.js -->
+    <script src="js/vendor/scrollReveal.min.js"></script>
 
     <!-- Handlebars -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>

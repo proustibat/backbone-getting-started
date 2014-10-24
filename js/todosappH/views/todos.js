@@ -10,8 +10,7 @@ appH.TodoView = Backbone.View.extend({
 	tagName: "li",
 
 	// Cache the template function for a single item
-	// template: _.template($("#item-template").html()),
-	template: Handlebars.compile( $("#item-template").html(), {}),
+	template: Handlebars.compile( $("#item-template").html()),
 
 	// The DOM events specific to an item
 	events: {
@@ -40,10 +39,6 @@ appH.TodoView = Backbone.View.extend({
 
 	// Re-rendering the titles of the todo item
 	render: function() {
-		// we render our Underscore.js #item-template, which was previously
-		// compiled into this.template using Underscore’s _.template() method
-		// This returns an HTML fragment that replaces the content of the view’s element
-		// (an li element was implicitly created for us based on the tagName property)
 		this.$el.html(this.template(this.model.attributes));
 		this.toggleVisible();
 
