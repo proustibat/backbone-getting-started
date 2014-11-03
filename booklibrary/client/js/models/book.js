@@ -7,5 +7,8 @@ app.Book = Backbone.Model.extend({
 		author: "Unknown",
 		releaseDate: "Unknown",
 		keywords: "None"
+	},
+	initialize:function() {
+		console.log("Book.initialize");
 	}
 });
