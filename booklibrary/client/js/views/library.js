@@ -14,13 +14,6 @@ app.LibraryView = Backbone.View.extend({
 		this.collection = new app.Library(initialBooks);
 		this.render();
 
-		// console.log($("#add"));
-		// $("#add").on('click', function(event) {
-		// 	event.preventDefault();
-		// 	console.log("ALLO");
-		// });
-
-
 		// Need to make the view render again when a new model is added
 		this.listenTo(this.collection, "add", this.renderBook)
 	},
@@ -43,7 +36,7 @@ app.LibraryView = Backbone.View.extend({
 
 	// When the user clicks the add button : take the data in the form and use it to create a new model.
 	addBook: function(e) {
-		console.log("LibraryView.addBook");
+		console.log(e);
 		e.preventDefault();
 		var formData = {};
 
